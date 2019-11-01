@@ -24,13 +24,13 @@ mongoose.connect(dbURL, (err) => {
   }
 });
 
-let redisURL = {
+const redisURL = {
   hostname: `${process.env.REDISCLOUD_URL}`,
   port: `${process.env.REDIS_PORT}`,
 };
 
 
-let redisPass = `${process.env.REDIS_PWD}`;
+const redisPass = `${process.env.REDIS_PWD}`;
 
 
 const router = require('./router.js');

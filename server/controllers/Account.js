@@ -72,8 +72,7 @@ const signup = (request, response) => {
       if (err.code === 11000) return res.status(400).json({ error: 'Username already in use' });
       return res.status(400).json({ error: 'An error occurred' });
     });
-
-  })
+  });
 };
 
 module.exports = {
