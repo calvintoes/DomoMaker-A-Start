@@ -51,9 +51,9 @@ DomoSchema.statics.findByOwner = (ownerId, callback) => {
 };
 
 DomoSchema.statics.removeByAttr = (attr, callback) => {
-  return DomoModel.deleteOne(attr, (err, obj) => {
+  return DomoModel.deleteOne(attr, (err) => {
     if (err) console.log(err);
-    console.log(`${obj} document(s) deleted`);
+    console.log('1 document(s) deleted');
   }, callback);
 };
 

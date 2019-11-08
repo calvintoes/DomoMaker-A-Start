@@ -1,7 +1,8 @@
 
 const handleDomo = (e) => {
   e.preventDefault();
-
+  let _csrf = $('.CSRF').val();
+console.log(_csrf)
   $('#domoMessage').animate({ width: 'hide' }, 350);
 
   if ($('#domoName').val() === '' || $('#domoAge').val() === '' || $('#domoHeight').val() === '') {
@@ -10,7 +11,7 @@ const handleDomo = (e) => {
   }
 
   sendAjax('POST', $('#domoForm').attr('action'), $('#domoForm').serialize(), function() {
-    loadDomosFromServer();
+    loadDomosFromServer(_csrf);
   });
 
   return false;
@@ -20,19 +21,19 @@ const removeDomo = (domo, e) => {
   e.persist();
   console.log(domo); 
   let id = domo._id;
-  console.log(document.querySelector('.removeCSRF'))
   let _csrf = document.querySelector('.removeCSRF').value;
 
-  const domoData = {
+  let domoData = {
     id,
-    _csrf
   };
 
   console.log('data obj',domoData)
 
   sendAjax('DELETE', '/removeDomo', domoData, function(){
     loadDomosFromServer()
-  });
+  }, _csrf);
+
+  loadDomosFromServer()
 }
 
 const DomoForm = (props) => {
@@ -51,50 +52,50 @@ const DomoForm = (props) => {
       <input id='domoAge' type='text' name='age' placeholder='age' />
       <label htmlFor='height'>Height: </label>
       <input id='domoHeight' type='text' name='height' placeholder='height (in inches)' />
-      <input type='hidden' name='_csrf' value={props.csrf} />
+      <input className="CSRF" type='hidden' name='_csrf' value={props.csrf} />
       <input className='makeDomoSubmit' type='submit' value='Make Domo' />
     </form>  
   );
 };
 
 const DomoList = (props) => {
-  let csrf = props.csrf;
   
   if (props.domos.length === 0) {
+    console.log(props)
     return (
       <div className="domoList">
         <h3 className="emptyDomo">No Domos Yet</h3>
       </div>
     );
-  }
-  
-  const domoNodes = props.domos.map((domo) => {
-    console.log(csrf)
-    return (
-      <div key={domo._id} className="domo">
-        <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
-        <h3 className="domoName"> Name: {domo.name} </h3>
-        <h3 className="domoAge"> Age: {domo.age} </h3>
-        <h3 className="domoHeight"> Height: {domo.height} in</h3>
-        <input className="removeCSRF" type='hidden' name='_csrf' value={csrf} />
-        <button className="removeDomoBtn" onClick={removeDomo.bind(this, domo)}> X </button>
-      </div>
-    );
-  });
+  } else {
 
-  return (
-    <div className="domoList">
-      {domoNodes}
-    </div>
-  )
+    const domoNodes = props.domos.map((domo) => {
+      console.log(props)
+      return (
+        <div key={domo._id} className="domo">
+          <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
+          <h3 className="domoName"> Name: {domo.name} </h3>
+          <h3 className="domoAge"> Age: {domo.age} </h3>
+          <h3 className="domoHeight"> Height: {domo.height} in</h3>
+          <input className="removeCSRF" type='hidden' name='_csrf' value={props.csrf} />
+          <button className="removeDomoBtn" onClick={removeDomo.bind(this, domo)}> X </button>
+        </div>
+      );
+    });
+
+    return (
+      <div className="domoList">
+        {domoNodes}
+      </div>
+    )
+  }
 };
 
 
-const loadDomosFromServer = () => {
+const loadDomosFromServer = (csrf) => {
   sendAjax('GET','/getDomos', null, (data) => {
-    console.log(data.domos)
     ReactDOM.render(
-      <DomoList domos={data.domos} />, document.querySelector("#domos")
+      <DomoList domos={data.domos} csrf={csrf}/>, document.querySelector("#domos")
     );
   });
 }
@@ -108,7 +109,7 @@ const setup = function(csrf) {
     <DomoList domos={[]} csrf={csrf} />, document.querySelector('#domos')
   );
 
-  loadDomosFromServer();
+  loadDomosFromServer(csrf);
 };
 
 const getToken = () => {

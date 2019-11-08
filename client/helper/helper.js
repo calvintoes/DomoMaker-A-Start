@@ -8,8 +8,11 @@ const redirect = (response) => {
   window.location = response.redirect;
 };
 
-const sendAjax = (type, action, data, success) => {
+const sendAjax = (type, action, data, success, token) => {
   $.ajax({
+    beforeSend(xhr) {
+      xhr.setRequestHeader('Csrf-Token', token);
+    },
     cache: false,
     type,
     url: action,

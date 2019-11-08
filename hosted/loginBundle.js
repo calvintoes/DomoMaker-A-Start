@@ -143,8 +143,12 @@ var redirect = function redirect(response) {
   window.location = response.redirect;
 };
 
-var sendAjax = function sendAjax(type, action, data, success) {
+var sendAjax = function sendAjax(type, action, data, success, token) {
   $.ajax({
+    beforeSend: function beforeSend(xhr) {
+      xhr.setRequestHeader('Csrf-Token', token);
+    },
+
     cache: false,
     type: type,
     url: action,

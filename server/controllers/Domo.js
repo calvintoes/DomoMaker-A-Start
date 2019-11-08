@@ -53,11 +53,10 @@ const getDomos = (req, res) => {
 };
 
 const removeDomo = (req, res) => {
-  console.log('yer', req.body);
+  console.log('yer', req.body.id);
 
   const data = {
     _id: req.body.id,
-    _csrf: req.body._csrf,
   };
 
   return Domo.DomoModel.removeByAttr(data, (err) => {
