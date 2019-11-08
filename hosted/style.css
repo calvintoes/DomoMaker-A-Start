@@ -50,7 +50,7 @@ nav:nth-child(1) {
 .domoForm {
     border: 2px solid #338acc;
     height: 35px;
-    width: 700px;
+    width: 1000px;
     margin-top:0px;
     padding-top:10px;
     background-color: #55acee;
@@ -79,6 +79,7 @@ nav:nth-child(1) {
     border-radius: 2px;
     color: white;
     text-decoration: none;
+    margin-left: 30px;
 }
 
 .makeDomoSubmit:link, .makeDomoSubmit:visited, .makeDomoSubmit:hover, .makeDomoSubmit:active {
@@ -245,13 +246,43 @@ h3.domoName {
 }
 
 h3.domoAge {
-    float:right;
+    float:left;
     text-align: left;
     width: 100px;
     font-weight: bold;
     padding-right: 40px;
     font-size: 1.5em;
 }
+
+h3.domoHeight{
+    float: left;
+    text-align: left;
+    width: 150px;
+    font-weight: bold;
+    font-size: 1.5em;;
+}
+
+.removeDomoBtn{
+    float: right;
+    margin: 0 auto;
+    display:inline-block;
+    padding:0.35em 1.2em;
+    border:0.1em solid #FFFFFF;
+    margin:0 0.3em 0.3em 0;
+    border-radius:0.5em;
+    box-sizing: border-box;
+    text-decoration:none;
+    background-color: rgba(211, 51, 51, 0.8);
+    color:rgb(255, 255, 255);
+    text-align:center;
+    transition: all 0.2s;
+}
+.removeDomoBtn:hover{
+  color:#000000;
+  background-color:rgba(248, 248, 248, 0.603);
+  cursor: pointer;
+}
+
 
 .domo:first-child {
     margin-top: 10px;
