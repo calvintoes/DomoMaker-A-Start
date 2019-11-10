@@ -10,7 +10,7 @@ const mongoose = require('mongoose');
 const expressHandlebars = require('express-handlebars');
 const session = require('express-session');
 const RedisStore = require('connect-redis')(session);
-// const url = require('url');
+const url = require('url');
 const csrf = require('csurf');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
@@ -24,14 +24,17 @@ mongoose.connect(dbURL, (err) => {
   }
 });
 
-const redisURL = {
+let redisURL = {
   hostname: `${process.env.REDISCLOUD_URL}`,
   port: `${process.env.REDIS_PORT}`,
 };
 
+let redisPass = `${process.env.REDIS_PWD}`;
 
-const redisPass = `${process.env.REDIS_PWD}`;
-
+if (process.env.REDISCLOUD_URL) {
+  redisURL = url.parse(process.env.REDISCLOUD_URL);
+  redisPass = redisURL.auth.split(':');
+}
 
 const router = require('./router.js');
 
