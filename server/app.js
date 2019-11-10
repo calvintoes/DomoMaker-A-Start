@@ -33,7 +33,7 @@ let redisPass = `${process.env.REDIS_PWD}`;
 
 if (process.env.REDISCLOUD_URL) {
   redisURL = url.parse(process.env.REDISCLOUD_URL);
-  redisPass = redisURL.auth.split(':');
+  redisPass = redisURL.auth.split(':')[1];
 }
 
 const router = require('./router.js');
